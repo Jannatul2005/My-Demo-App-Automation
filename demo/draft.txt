@@ -1,0 +1,54 @@
+from appium import webdriver
+from appium.webdriver.common.appiumby import AppiumBy
+from appium.webdriver.webdriver import AppiumOptions
+import pytest
+
+# Initialize the driver for real tests
+def initialize_driver(capabilities, server_url="http://127.0.0.1:4723/wd/hub"):
+    appium_options = AppiumOptions()
+    appium_options.load_capabilities(capabilities)
+    driver = webdriver.Remote(server_url, options=appium_options)
+    return driver
+
+# Login function
+def login(driver, mobile_number, password_text):
+    login_button = driver.find_element(AppiumBy.XPATH, '//android.widget.Button[@content-desc="Log in"]')
+    login_button.click()
+
+    mobile = driver.find_element(AppiumBy.XPATH, "//android.widget.EditText[@text='Mobile']")
+    password = driver.find_element(AppiumBy.XPATH, "//android.widget.EditText[@text='Password']")
+    
+    mobile.send_keys(mobile_number)
+    password.send_keys(password_text)
+    
+    login_btn = driver.find_element(AppiumBy.XPATH, '//android.widget.Button[@content-desc="Log in"]')
+    login_btn.click()
+    return True
+
+# Add money function
+def click_add_money(driver):
+    add_money = driver.find_element(AppiumBy.XPATH, '//android.widget.FrameLayout[@resource-id="android:id/content"]/android.widget.FrameLayout/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View[2]/android.widget.ImageView[3]')
+    add_money.click()
+    return True
+
+# Pytest test cases using a real driver
+@pytest.fixture
+def driver():
+    capabilities = {
+        "platformName": "Android",
+        "platformVersion": "14",
+        "deviceName": "RZ8W800X1WW",
+        "appium:app": "D://demo_apps/cashbaba_demo_4.0.13_270.apk",
+        "automationName": "UiAutomator2",
+    }
+    driver = initialize_driver(capabilities)
+    yield driver
+    driver.quit()
+
+def test_login(driver):
+    result = login(driver, "01786695785", "Password1@")
+    assert result is True
+
+def test_click_add_money(driver):
+    result = click_add_money(driver)
+    assert result is True

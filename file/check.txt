@@ -1,0 +1,3 @@
+amimul
+
+pip install pytest pytest-failed-runner

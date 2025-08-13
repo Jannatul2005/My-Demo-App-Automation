@@ -1,0 +1,36 @@
+import pytest
+from appium import webdriver
+from appium.webdriver.common.appiumby import AppiumBy
+from appium.webdriver.webdriver import AppiumOptions
+from selenium.webdriver.support.ui import WebDriverWait
+
+
+@pytest.fixture
+def driver():
+    capabilities = {
+        "platformName": "Android",
+        "platformVersion": "14",
+        "deviceName": "RZ8W800X1WW",
+        "appium:app": "D://demo_apps/cashbaba_demo_4.0.13_270.apk",
+        "automationName": "UiAutomator2",
+    }
+    driver = initialize_driver(capabilities)
+    yield driver
+time.sleep (3)
+
+# Initialize the driver
+def initialize_driver(capabilities, server_url="http://127.0.0.1:4723/wd/hub"):
+    appium_options = AppiumOptions()
+    appium_options.load_capabilities(capabilities)
+    driver = webdriver.Remote(server_url, options=appium_options)
+    return driver
+time.sleep (3)
+
+print ("connected")
+
+# Login function
+def login(driver):
+    login_button = driver.find_element(AppiumBy.XPATH, '//android.widget.Button[@content-desc="Log in"]')
+    login_button.click()
+
+    return True

@@ -1,0 +1,31 @@
+@pytest.mark.order(2)
+def test_History(driver):
+    # Step 2: Click on history 
+    History = driver.find_element(AppiumBy.XPATH,'//android.widget.ImageView[contains(@content-desc, "History") and contains(@content-desc, "Tab 4 of 5")]')
+    time.sleep(2)
+    History.click()
+    time.sleep(5)
+
+@pytest.mark.order(3)
+def test_TopStatement(driver):
+    open_TopStatement = driver.find_element(AppiumBy.XPATH, 
+        "//android.widget.ImageView[@content-desc='Lamisha Haque Poushy 01786695785' and @index='1' and @class='android.widget.ImageView']")
+    time.sleep(2)
+    open_TopStatement.click()
+    time.sleep(5)
+
+
+@pytest.mark.order(4)
+def test_crossButton(driver):
+    cross_button = driver.find_element(AppiumBy.XPATH, 
+        "//android.widget.Button[@content-desc='Proceed' and @index='4' and @class='android.widget.Button']")
+    time.sleep(2)
+    cross_button.click()
+    time.sleep(5)
+
+@pytest.mark.order(5)
+def test_goBack(driver):
+    back_dashboard = driver.find_element(AppiumBy.XPATH, 
+        '//android.view.View[@content-desc="Success!"][0]')
+    back_dashboard.click()
+    time.sleep(5)
